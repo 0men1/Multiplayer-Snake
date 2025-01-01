@@ -58,4 +58,8 @@ export class SnakeGame {
     reset() {
         this.state = this.getInitialState();
     }
+
+    changeDirection(newDirection: Direction) {
+        this.state.direction = newDirection;
+    }
 }
