@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Gamepad2, Users, Brain } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 type GameMode = 'single' | 'multiplayer' | 'ai' | null;
 
@@ -61,11 +62,11 @@ const MenuButton: React.FC<MenuButtonProps> = ({
 // This is our new client component that handles the interactive menu
 const MenuCard: React.FC = () => {
   const [selectedMode, setSelectedMode] = useState<GameMode>(null);
+  const router = useRouter();    
 
   const handleModeSelect = (mode: Exclude<GameMode, null>) => {
     setSelectedMode(mode);
-    // router.push(`/game/${mode}`);
-    console.log(`Starting ${mode} mode`);
+    router.push(`/game/`);
   };
 
   return (
