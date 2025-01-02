@@ -1,7 +1,5 @@
-// components/game/GameBoard.tsx
-'use client'
-import { useRef, useEffect } from 'react'
-import { GameState } from '@/api/types' // Make sure this path matches your types
+import { useRef, useEffect } from 'react';
+import { GameState } from '@/api/types';
 
 interface GameBoardProps {
     gameState: GameState;
@@ -9,19 +7,37 @@ interface GameBoardProps {
 
 const GameBoard: React.FC<GameBoardProps> = ({ gameState }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const CELL_SIZE = 20; // Each grid cell will be 20x20 pixels
-    const GRID_SIZE = 20; // 20x20 grid
+    const CELL_SIZE = 20;
+    const GRID_SIZE = 20;
     const CANVAS_SIZE = CELL_SIZE * GRID_SIZE;
 
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
-
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        // Clear the canvas
+        // Create a pattern for the grid
+        const patternCanvas = document.createElement('canvas');
+        patternCanvas.width = CELL_SIZE;
+        patternCanvas.height = CELL_SIZE;
+        const patternCtx = patternCanvas.getContext('2d');
+        if (!patternCtx) return;
+
+        // Draw the pattern (a single cell with borders)
+        patternCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+        patternCtx.strokeRect(0, 0, CELL_SIZE, CELL_SIZE);
+
+        // Create the pattern from our small canvas
+        const pattern = ctx.createPattern(patternCanvas, 'repeat');
+        if (!pattern) return;
+
+        // Clear and fill background
         ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
+        // Apply grid pattern
+        ctx.fillStyle = pattern;
         ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
         // Draw snake
@@ -35,9 +51,23 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameState }) => {
             );
         });
 
-        ctx.fillStyle = 'red'
-        ctx.fillRect(gameState.food.x * CELL_SIZE, gameState.food.y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+        // Draw head
+        ctx.fillStyle = 'green';
+        ctx.fillRect(
+            gameState.snake[0].x * CELL_SIZE,
+            gameState.snake[0].y * CELL_SIZE,
+            CELL_SIZE,
+            CELL_SIZE
+        );
 
+        // Draw food
+        ctx.fillStyle = 'red';
+        ctx.fillRect(
+            gameState.food.x * CELL_SIZE,
+            gameState.food.y * CELL_SIZE,
+            CELL_SIZE,
+            CELL_SIZE
+        );
     }, [gameState]);
 
     return (

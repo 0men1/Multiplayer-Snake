@@ -31,8 +31,8 @@ export class SnakeGame {
         let newFood: Position;
         do {
             newFood = {
-                x: Math.floor(Math.random() * this.boardSize),
-                y: Math.floor(Math.random() * this.boardSize)
+                x: Math.floor(Math.random() * (this.boardSize)),
+                y: Math.floor(Math.random() * (this.boardSize))
             }
         } while (this.isPositionOccupied(newFood))
 
@@ -42,6 +42,10 @@ export class SnakeGame {
     update() {
         const head = this.state.snake[0];
         const newHead = { ...head };
+
+        if (this.checkCollision()) {
+            this.state.isGameOver = true
+        }
 
         // Update the new head's position based on current direction
         switch (this.state.direction) {
@@ -76,7 +80,7 @@ export class SnakeGame {
 
     checkCollision(): boolean {
         const head = this.state.snake[0]
-        return (head.x < 0 && head.y < 0) || (head.x > this.boardSize && head.y > this.boardSize)
+        return (head.x < 0 || head.y < 0) || (head.x > this.boardSize-1 || head.y > this.boardSize-1)
     }
 
     getState(): GameState {

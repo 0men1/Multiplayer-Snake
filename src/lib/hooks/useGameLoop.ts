@@ -3,11 +3,11 @@ import { useEffect, useRef } from "react";
 export function useGameLoop(callback: () => void, targetFPS: number = 10) {
     // Store the ID for our animation frame request
     // We need this to clean up properly when the component unmounts
-    const animationFrameId = useRef<number>();
+    const animationFrameId = useRef<number>(undefined);
     
     // Keep track of when we last updated the game
     // This helps us maintain consistent game speed
-    const lastUpdateTime = useRef<number>();
+    const lastUpdateTime = useRef<number>(undefined);
     
     // Calculate how many milliseconds should pass between updates
     // For example, at 10 FPS we want 100ms between updates

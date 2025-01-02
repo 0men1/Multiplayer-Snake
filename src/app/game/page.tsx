@@ -54,6 +54,7 @@ export default function SinglePlayerGame() {
                     break;
             }
         }
+
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
     }, [isLoading])
