@@ -15,19 +15,23 @@ export default function SinglePlayerGame() {
 
     useEffect(() => {
         const handleKeyPress = (e: KeyboardEvent) => {
-            switch (e.key) {
+            switch (e.code) {
+                case "KeyS":
                 case "ArrowDown":
                     // Do something for "down arrow" key press.
                     gameRef.current.changeDirection(Direction.DOWN)
                     break;
+                case "KeyW":
                 case "ArrowUp":
                     // Do something for "up arrow" key press.
                     gameRef.current.changeDirection(Direction.UP)
                     break;
+                case "KeyA":
                 case "ArrowLeft":
                     // Do something for "left arrow" key press.
                     gameRef.current.changeDirection(Direction.LEFT)
                     break;
+                case "KeyD":
                 case "ArrowRight":
                     // Do something for "right arrow" key press.
                     gameRef.current.changeDirection(Direction.RIGHT)
