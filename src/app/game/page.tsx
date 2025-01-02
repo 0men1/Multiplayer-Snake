@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Direction } from '@/api/types'
 import GameLoading from '@/components/loading/GameLoading'
+import GameOver from '@/components/game/GameOver'
 
 export default function SinglePlayerGame() {
     const router = useRouter();
@@ -79,17 +80,19 @@ export default function SinglePlayerGame() {
                 <Button
                     variant="outline"
                     onClick={handleBackToMenu}
-                    className="text-white"
                 >
                     Back to Menu
                 </Button>
+                <div className='text-white p-2 bg-white/20 rounded-md'>
+                    Score: {gameState.score}
+                </div>
             </div>
             {
                 isLoading ? (<GameLoading />) : (<><GameBoard gameState={gameState} /></>)
             }
             {gameState.isGameOver && (
                 <div className="mt-4 text-white text-2xl">
-                    Game Over! Score: {gameState.score}
+                    <GameOver title='Game Over!' description='You went out of bounds!' points={gameState.score}/>
                 </div>
             )}
         </div>

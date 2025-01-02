@@ -52,8 +52,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({
     variant={variant}
     size="lg"
     onClick={onClick}
-    className="w-64 h-16 text-lg font-semibold transition-all duration-200 hover:scale-105"
-  >
+    className="w-64 h-16 text-lg font-semibold transition-all duration-200 hover:scale-105">
     {icon}
     <span className="ml-2">{text}</span>
   </Button>
