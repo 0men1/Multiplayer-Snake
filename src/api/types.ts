@@ -14,7 +14,7 @@ export interface Position {
 
 export interface GameState {
     snake: Position[];
-    food: Position | null
+    food: Position 
     direction: Direction;
     score: number;
     isGameOver: boolean

@@ -25,7 +25,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameState }) => {
         ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
         // Draw snake
-        ctx.fillStyle = 'green';
+        ctx.fillStyle = 'white';
         gameState.snake.forEach(segment => {
             ctx.fillRect(
                 segment.x * CELL_SIZE,
@@ -34,6 +34,9 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameState }) => {
                 CELL_SIZE
             );
         });
+
+        ctx.fillStyle = 'red'
+        ctx.fillRect(gameState.food.x * CELL_SIZE, gameState.food.y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
 
     }, [gameState]);
 

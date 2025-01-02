@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Gamepad2, Users, Brain } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -42,13 +42,13 @@ const gameModeConfigs: Record<Exclude<GameMode, null>, GameModeDescription> = {
   }
 };
 
-const MenuButton: React.FC<MenuButtonProps> = ({ 
-  text, 
-  icon, 
-  onClick, 
-  variant = "default" 
+const MenuButton: React.FC<MenuButtonProps> = ({
+  text,
+  icon,
+  onClick,
+  variant = "default"
 }) => (
-  <Button 
+  <Button
     variant={variant}
     size="lg"
     onClick={onClick}
@@ -62,7 +62,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({
 // This is our new client component that handles the interactive menu
 const MenuCard: React.FC = () => {
   const [selectedMode, setSelectedMode] = useState<GameMode>(null);
-  const router = useRouter();    
+  const router = useRouter();
 
   const handleModeSelect = (mode: Exclude<GameMode, null>) => {
     setSelectedMode(mode);
@@ -73,7 +73,7 @@ const MenuCard: React.FC = () => {
     <div className="bg-gray-800/50 p-8 rounded-lg backdrop-blur-sm border border-gray-700">
       <div className="flex flex-col items-center space-y-6">
         {(Object.entries(gameModeConfigs) as [Exclude<GameMode, null>, GameModeDescription][]).map(([mode, config]) => (
-          <MenuButton 
+          <MenuButton
             key={mode}
             text={config.text}
             icon={config.icon}

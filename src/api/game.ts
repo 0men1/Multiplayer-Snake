@@ -1,4 +1,4 @@
-import { Direction, GameState } from "./types";
+import { Direction, GameState, Position } from "./types";
 
 
 export class SnakeGame {
@@ -13,16 +13,33 @@ export class SnakeGame {
     private getInitialState(): GameState {
         return {
             snake: [{ x: 10, y: 10 }],
-            food: null,
+            food: this.generateFood(),
             direction: Direction.RIGHT,
             score: 0,
             isGameOver: false
         }
     }
 
-    update(): GameState {
-        if (this.state.isGameOver) return this.state;
+    private isPositionOccupied(position: Position): boolean {
+        if (this.state) {
+            return this.state.snake.some(segment => segment.x === position.x && segment.y === position.y)
+        }
+        return false
+    }
 
+    generateFood(): Position {
+        let newFood: Position;
+        do {
+            newFood = {
+                x: Math.floor(Math.random() * this.boardSize),
+                y: Math.floor(Math.random() * this.boardSize)
+            }
+        } while (this.isPositionOccupied(newFood))
+
+        return newFood;
+    }
+
+    update() {
         const head = this.state.snake[0];
         const newHead = { ...head };
 
@@ -45,10 +62,21 @@ export class SnakeGame {
         // Add the new head to the front of the snake array
         this.state.snake.unshift(newHead);
 
-        // Remove the last segment of the snake to maintain its length
-        this.state.snake.pop();
+        if (this.hasEatenFood(newHead)) {
+            this.state.score++;
+            this.state.food = this.generateFood()
+        } else {
+            this.state.snake.pop();
+        }
+    }
 
-        return this.state;
+    private hasEatenFood(head: Position): boolean {
+        return head.x === this.state.food.x && head.y == this.state.food.y
+    }
+
+    checkCollision(): boolean {
+        const head = this.state.snake[0]
+        return (head.x < 0 && head.y < 0) || (head.x > this.boardSize && head.y > this.boardSize)
     }
 
     getState(): GameState {

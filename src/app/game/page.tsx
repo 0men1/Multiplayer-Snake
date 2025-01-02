@@ -6,14 +6,30 @@ import { useGameLoop } from '@/lib/hooks/useGameLoop'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Direction } from '@/api/types'
+import GameLoading from '@/components/loading/GameLoading'
 
 export default function SinglePlayerGame() {
     const router = useRouter();
-    const gameRef = useRef<SnakeGame>(new SnakeGame(20));
+    const [isLoading, setIsLoading] = useState(true);
+    let gameRef = useRef<SnakeGame>(new SnakeGame(20));
     const [gameState, setGameState] = useState(gameRef.current.getState());
+
+    useEffect(() => {
+        const initializeGame = async () => {
+            try {
+                await setupGameComponents();
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Failed to initialize game:', error)
+            }
+        };
+        initializeGame();
+    })
 
 
     useEffect(() => {
+        if (isLoading) return;
+
         const handleKeyPress = (e: KeyboardEvent) => {
             switch (e.code) {
                 case "KeyS":
@@ -40,17 +56,12 @@ export default function SinglePlayerGame() {
         }
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
-    })
+    }, [isLoading])
 
 
-    // Set up game loop
-    // In your game component
     useGameLoop(() => {
-        // Only update if the game is running
-        if (!gameState.isGameOver) {
-            // Update the game state
+        if (!gameState.isGameOver && !isLoading) {
             gameRef.current.update();
-            // Update React's state with the new game state
             setGameState(gameRef.current.getState());
         }
     }, 10); // 10 FPS for comfortable snake speed
@@ -72,7 +83,9 @@ export default function SinglePlayerGame() {
                     Back to Menu
                 </Button>
             </div>
-            <GameBoard gameState={gameState} />
+            {
+                isLoading ? (<GameLoading />) : (<><GameBoard gameState={gameState} /></>)
+            }
             {gameState.isGameOver && (
                 <div className="mt-4 text-white text-2xl">
                     Game Over! Score: {gameState.score}
@@ -80,4 +93,11 @@ export default function SinglePlayerGame() {
             )}
         </div>
     );
+}
+
+
+async function setupGameComponents(): Promise<void> {
+    return new Promise(resolve => {
+        setTimeout(resolve, 1000);
+    })
 }
