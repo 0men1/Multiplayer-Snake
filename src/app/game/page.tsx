@@ -1,4 +1,5 @@
 'use client'
+
 import { useEffect, useRef, useState } from 'react'
 import GameBoard from '@/components/game/GameBoard'
 import { SnakeGame } from '@/api/game'
@@ -92,13 +93,12 @@ export default function SinglePlayerGame() {
             }
             {gameState.isGameOver && (
                 <div className="mt-4 text-white text-2xl">
-                    <GameOver title='Game Over!' description='You went out of bounds!' points={gameState.score} gameRef={gameRef} setGameState={setGameState} onExit={handleBackToMenu}/>
+                    <GameOver title='Game Over!' description='You went out of bounds!' points={gameState.score} gameRef={gameRef} setGameState={setGameState} onExit={handleBackToMenu} />
                 </div>
             )}
         </div>
     );
 }
-
 
 async function setupGameComponents(): Promise<void> {
     return new Promise(resolve => {

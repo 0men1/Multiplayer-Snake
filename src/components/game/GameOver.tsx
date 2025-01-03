@@ -3,7 +3,6 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Trophy } from "lucide-react";
 import { SnakeGame } from '@/api/game';
-import { useRouter } from 'next/navigation';
 
 interface GameOverProps {
     title: string;
@@ -14,13 +13,13 @@ interface GameOverProps {
     onExit: () => void;
 }
 
-const GameOver: React.FC<GameOverProps> = ({ 
-    title, 
-    description, 
-    points, 
+const GameOver: React.FC<GameOverProps> = ({
+    title,
+    description,
+    points,
     gameRef,
     setGameState,
-    onExit 
+    onExit
 }) => {
     const handleRestart = () => {
         // Create a new game instance with the same size
@@ -29,16 +28,14 @@ const GameOver: React.FC<GameOverProps> = ({
         setGameState(gameRef.current.getState());
     };
 
-
     useEffect(() => {
         const handleRestartKeyPress = (e: KeyboardEvent) => {
-            switch(e.code) {
+            switch (e.code) {
                 case "Space":
                     handleRestart();
                     break;
             }
         }
-    
         window.addEventListener('keydown', handleRestartKeyPress)
         return () => window.removeEventListener('keydown', handleRestartKeyPress)
     }, [])
@@ -50,9 +47,6 @@ const GameOver: React.FC<GameOverProps> = ({
         console.log('Submitting score:', points);
     };
 
-
-    const router = useRouter();
-
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
             <Card className="w-96 bg-zinc-900 border-zinc-800 text-white animate-in zoom-in-95 duration-200">
@@ -60,7 +54,7 @@ const GameOver: React.FC<GameOverProps> = ({
                     <CardTitle className="text-2xl font-bold tracking-tight">
                         {title}
                     </CardTitle>
-                    
+
                     <div className="flex items-center justify-center gap-2 text-amber-400">
                         <Trophy className="w-6 h-6" />
                         <span className="text-3xl font-bold">{points}</span>
@@ -74,21 +68,21 @@ const GameOver: React.FC<GameOverProps> = ({
                 </CardContent>
 
                 <CardFooter className="flex flex-col gap-3">
-                    <Button 
+                    <Button
                         className="w-full bg-green-600 hover:bg-green-700 text-white"
                         onClick={handleRestart}
                     >
                         Play Again
                     </Button>
-                    
-                    <Button 
+
+                    <Button
                         className="w-full bg-amber-600 hover:bg-amber-700 text-white"
                         onClick={handleSubmitScore}
                     >
                         Submit to Leaderboard
                     </Button>
-                    
-                    <Button 
+
+                    <Button
                         variant="outline"
                         className="w-full border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white"
                         onClick={onExit}

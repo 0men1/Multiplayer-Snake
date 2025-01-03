@@ -50,7 +50,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameState }) => {
             // Calculate the distance to move this frame
             const dx = pos.targetX - pos.currentX;
             const dy = pos.targetY - pos.currentY;
-            
+
             if (Math.abs(dx) > 0.01 || Math.abs(dy) > 0.01) {
                 pos.currentX += dx * INTERPOLATION_SPEED * deltaTime;
                 pos.currentY += dy * INTERPOLATION_SPEED * deltaTime;

@@ -12,7 +12,7 @@ export class SnakeGame {
 
     private getInitialState(): GameState {
         return {
-            snake: [{ x: 10, y: 10 }],
+            snake: [{ x: 10, y: 10 }, {x: 10, y:10}, {x: 10, y:10}],
             food: this.generateFood(),
             direction: Direction.RIGHT,
             score: 0,
@@ -27,7 +27,7 @@ export class SnakeGame {
         return false
     }
 
-    generateFood(): Position {
+    private generateFood(): Position {
         let newFood: Position;
         do {
             newFood = {
@@ -78,9 +78,9 @@ export class SnakeGame {
         return head.x === this.state.food.x && head.y == this.state.food.y
     }
 
-    checkCollision(): boolean {
+    private checkCollision(): boolean {
         const head = this.state.snake[0]
-        return (head.x < 0 || head.y < 0) || (head.x > this.boardSize-1 || head.y > this.boardSize-1)
+        return (head.x < 0 || head.y < 0) || (head.x > this.boardSize - 1 || head.y > this.boardSize - 1)
     }
 
     getState(): GameState {

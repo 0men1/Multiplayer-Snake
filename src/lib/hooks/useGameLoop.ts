@@ -4,11 +4,11 @@ export function useGameLoop(callback: () => void, targetFPS: number = 10) {
     // Store the ID for our animation frame request
     // We need this to clean up properly when the component unmounts
     const animationFrameId = useRef<number>(undefined);
-    
+
     // Keep track of when we last updated the game
     // This helps us maintain consistent game speed
     const lastUpdateTime = useRef<number>(undefined);
-    
+
     // Calculate how many milliseconds should pass between updates
     // For example, at 10 FPS we want 100ms between updates
     const millisecondsPerFrame = useRef<number>(1000 / targetFPS);
@@ -31,7 +31,7 @@ export function useGameLoop(callback: () => void, targetFPS: number = 10) {
             if (timeSinceLastUpdate >= millisecondsPerFrame.current) {
                 // Run the game update
                 callback();
-                
+
                 // Reset our timer to the current time
                 // Note: We use currentTime, not currentTime - timeSinceLastUpdate
                 // This helps prevent drift in our game timing
