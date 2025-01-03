@@ -12,7 +12,7 @@ export class SnakeGame {
 
     private getInitialState(): GameState {
         return {
-            snake: [{ x: 10, y: 10 }, {x: 10, y:10}, {x: 10, y:10}],
+            snake: [{ x: 10, y: 10 }, { x: 10, y: 10 }, { x: 10, y: 10 }],
             food: this.generateFood(),
             direction: Direction.RIGHT,
             score: 0,
@@ -92,6 +92,13 @@ export class SnakeGame {
     }
 
     changeDirection(newDirection: Direction) {
+        if (this.state.direction == Direction.LEFT && newDirection == Direction.RIGHT
+            || this.state.direction == Direction.RIGHT && newDirection == Direction.LEFT
+            || this.state.direction == Direction.DOWN && newDirection == Direction.UP
+            || this.state.direction == Direction.UP && newDirection == Direction.DOWN
+        ) {
+            return
+        }
         this.state.direction = newDirection;
     }
 }
