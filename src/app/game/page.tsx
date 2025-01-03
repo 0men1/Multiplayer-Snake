@@ -92,7 +92,7 @@ export default function SinglePlayerGame() {
             }
             {gameState.isGameOver && (
                 <div className="mt-4 text-white text-2xl">
-                    <GameOver title='Game Over!' description='You went out of bounds!' points={gameState.score} gameRef={gameRef} setGameState={setGameState} onExit={() => {}}/>
+                    <GameOver title='Game Over!' description='You went out of bounds!' points={gameState.score} gameRef={gameRef} setGameState={setGameState} onExit={handleBackToMenu}/>
                 </div>
             )}
         </div>

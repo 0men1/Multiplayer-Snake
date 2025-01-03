@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Trophy } from "lucide-react";
 import { SnakeGame } from '@/api/game';
+import { useRouter } from 'next/navigation';
 
 interface GameOverProps {
     title: string;
@@ -23,7 +24,7 @@ const GameOver: React.FC<GameOverProps> = ({
 }) => {
     const handleRestart = () => {
         // Create a new game instance with the same size
-        gameRef.current = new SnakeGame(20);
+        gameRef.current.reset();
         // Update the game state to reflect the new game
         setGameState(gameRef.current.getState());
     };
@@ -48,6 +49,9 @@ const GameOver: React.FC<GameOverProps> = ({
         // You can implement leaderboard submission logic here
         console.log('Submitting score:', points);
     };
+
+
+    const router = useRouter();
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
