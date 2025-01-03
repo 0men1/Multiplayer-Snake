@@ -13,7 +13,7 @@ import GameOver from '@/components/game/GameOver'
 export default function SinglePlayerGame() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
-    let gameRef = useRef<SnakeGame>(new SnakeGame(20));
+    const gameRef = useRef<SnakeGame>(new SnakeGame(20));
     const [gameState, setGameState] = useState(gameRef.current.getState());
 
     useEffect(() => {

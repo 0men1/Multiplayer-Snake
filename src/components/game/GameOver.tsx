@@ -3,13 +3,14 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Trophy } from "lucide-react";
 import { SnakeGame } from '@/api/game';
+import { GameState } from '@/api/types';
 
 interface GameOverProps {
     title: string;
     description: string;
     points: number;
     gameRef: React.MutableRefObject<SnakeGame>;
-    setGameState: React.Dispatch<React.SetStateAction<any>>;
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>;
     onExit: () => void;
 }
 
@@ -38,7 +39,7 @@ const GameOver: React.FC<GameOverProps> = ({
         }
         window.addEventListener('keydown', handleRestartKeyPress)
         return () => window.removeEventListener('keydown', handleRestartKeyPress)
-    }, [])
+    })
 
 
 
@@ -89,6 +90,8 @@ const GameOver: React.FC<GameOverProps> = ({
                     >
                         Exit to Menu
                     </Button>
+
+                    <p className='text-base'>Press &quot;Space&quot; to play again</p>
                 </CardFooter>
             </Card>
         </div>
