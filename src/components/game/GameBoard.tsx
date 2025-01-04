@@ -19,7 +19,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameState }) => {
     const animationFrameRef = useRef<number>(undefined);
     const lastTimeRef = useRef<number>(0);
 
-    const CELL_SIZE = 20;
+    const CELL_SIZE = 30;
     const GRID_SIZE = 20;
     const CANVAS_SIZE = CELL_SIZE * GRID_SIZE;
     const INTERPOLATION_SPEED = 0.3;

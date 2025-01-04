@@ -15,6 +15,7 @@ export default function SinglePlayerGame() {
     const [isLoading, setIsLoading] = useState(true);
     const gameRef = useRef<SnakeGame>(new SnakeGame(20));
     const [gameState, setGameState] = useState(gameRef.current.getState());
+    const inputQueueRef = useRef<Direction[]>([]);
 
     useEffect(() => {
         const initializeGame = async () => {
@@ -31,44 +32,48 @@ export default function SinglePlayerGame() {
 
     useEffect(() => {
         if (isLoading) return;
-
+    
         const handleKeyPress = (e: KeyboardEvent) => {
+            if (e.repeat) return; // Ignore held keys
+            
+            let newDirection: Direction | null = null;
             switch (e.code) {
                 case "KeyS":
                 case "ArrowDown":
-                    // Do something for "down arrow" key press.
-                    gameRef.current.changeDirection(Direction.DOWN)
+                    newDirection = Direction.DOWN;
                     break;
                 case "KeyW":
                 case "ArrowUp":
-                    // Do something for "up arrow" key press.
-                    gameRef.current.changeDirection(Direction.UP)
+                    newDirection = Direction.UP;
                     break;
                 case "KeyA":
                 case "ArrowLeft":
-                    // Do something for "left arrow" key press.
-                    gameRef.current.changeDirection(Direction.LEFT)
+                    newDirection = Direction.LEFT;
                     break;
                 case "KeyD":
                 case "ArrowRight":
-                    // Do something for "right arrow" key press.
-                    gameRef.current.changeDirection(Direction.RIGHT)
+                    newDirection = Direction.RIGHT;
                     break;
             }
+            
+            if (newDirection !== null) {
+                inputQueueRef.current.push(newDirection);
+            }
         }
-
+    
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
-    }, [isLoading])
-
-
+    }, [isLoading]);
+    
     useGameLoop(() => {
         if (!gameState.isGameOver && !isLoading) {
+            if (inputQueueRef.current.length > 0) {
+                gameRef.current.changeDirection(inputQueueRef.current.shift()!);
+            }
             gameRef.current.update();
             setGameState(gameRef.current.getState());
         }
-    }, 10); // 10 FPS for comfortable snake speed
-
+    }, 15); // Increased from 10 to 15 FPS
 
     const handleBackToMenu = () => {
         router.push('/');

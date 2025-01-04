@@ -9,7 +9,7 @@ export class SnakeGame {
         this.boardSize = boardSize;
         this.state = this.getInitialState();
     }
-
+ 
     private getInitialState(): GameState {
         return {
             snake: [{ x: 10, y: 10 }, { x: 10, y: 10 }, { x: 10, y: 10 }],
@@ -44,35 +44,49 @@ export class SnakeGame {
         const newHead = { ...head };
 
         if (this.checkCollision()) {
-            this.state.isGameOver = true
+            this.state.isGameOver = true;
+            return;
         }
 
-        // Update the new head's position based on current direction
         switch (this.state.direction) {
             case Direction.UP:
-                newHead.y -= 1;  // Move up by decreasing y
+                newHead.y -= 1;
                 break;
             case Direction.DOWN:
-                newHead.y += 1;  // Move down by increasing y
+                newHead.y += 1;
                 break;
             case Direction.LEFT:
-                newHead.x -= 1;  // Move left by decreasing x
+                newHead.x -= 1;
                 break;
             case Direction.RIGHT:
-                newHead.x += 1;  // Move right by increasing x
+                newHead.x += 1;
                 break;
         }
 
-        // Add the new head to the front of the snake array
         this.state.snake.unshift(newHead);
 
         if (this.hasEatenFood(newHead)) {
             this.state.score++;
-            this.state.food = this.generateFood()
+            this.state.food = this.generateFood();
         } else {
             this.state.snake.pop();
         }
     }
+
+
+    changeDirection(newDirection: Direction) {
+        const opposites = {
+            [Direction.UP]: Direction.DOWN,
+            [Direction.DOWN]: Direction.UP,
+            [Direction.LEFT]: Direction.RIGHT,
+            [Direction.RIGHT]: Direction.LEFT
+        };
+        
+        if (opposites[newDirection] !== this.state.direction) {
+            this.state.direction = newDirection;
+        }
+    }
+
 
     private hasEatenFood(head: Position): boolean {
         return head.x === this.state.food.x && head.y == this.state.food.y
@@ -89,16 +103,5 @@ export class SnakeGame {
 
     reset() {
         this.state = this.getInitialState();
-    }
-
-    changeDirection(newDirection: Direction) {
-        if (this.state.direction == Direction.LEFT && newDirection == Direction.RIGHT
-            || this.state.direction == Direction.RIGHT && newDirection == Direction.LEFT
-            || this.state.direction == Direction.DOWN && newDirection == Direction.UP
-            || this.state.direction == Direction.UP && newDirection == Direction.DOWN
-        ) {
-            return
-        }
-        this.state.direction = newDirection;
     }
 }
