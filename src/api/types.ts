@@ -19,3 +19,16 @@ export interface GameState {
     score: number;
     isGameOver: boolean
 }
+
+export interface DuelGameState {
+    players: {
+        snake: Position[];
+        food: Position;
+        score: number;
+        direction: Direction;
+        isAlive: boolean;
+    }[];
+    winScore: number;
+    isGameOver: boolean;
+    winner?: number;
+}

@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { GameState } from '@/api/types';
 
-interface GameBoardProps {
+interface SoloGameBoardProps {
     gameState: GameState;
 }
 
@@ -12,7 +12,7 @@ interface Position {
     targetY: number;
 }
 
-const GameBoard: React.FC<GameBoardProps> = ({ gameState }) => {
+const SoloGameBoard: React.FC<SoloGameBoardProps> = ({ gameState }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const patternRef = useRef<CanvasPattern | null>(null);
     const positionsRef = useRef<Position[]>([]);
@@ -63,26 +63,14 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameState }) => {
             // Draw segment
             ctx.fillStyle = i === 0 ? 'green' : 'white';
             ctx.beginPath();
-            ctx.roundRect(
-                pos.currentX,
-                pos.currentY,
-                CELL_SIZE,
-                CELL_SIZE,
-                4
-            );
+            ctx.roundRect( pos.currentX, pos.currentY, CELL_SIZE, CELL_SIZE, 4);
             ctx.fill();
         });
 
         // Draw food
         ctx.fillStyle = 'red';
         ctx.beginPath();
-        ctx.roundRect(
-            gameState.food.x * CELL_SIZE,
-            gameState.food.y * CELL_SIZE,
-            CELL_SIZE,
-            CELL_SIZE,
-            4
-        );
+        ctx.roundRect( gameState.food.x * CELL_SIZE, gameState.food.y * CELL_SIZE, CELL_SIZE, CELL_SIZE, 4);
         ctx.fill();
 
         // Continue animation if needed
@@ -125,12 +113,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameState }) => {
             const segment = gameState.snake[positionsRef.current.length];
             const gridX = segment.x * CELL_SIZE;
             const gridY = segment.y * CELL_SIZE;
-            positionsRef.current.push({
-                currentX: gridX,
-                currentY: gridY,
-                targetX: gridX,
-                targetY: gridY
-            });
+            positionsRef.current.push({ currentX: gridX, currentY: gridY, targetX: gridX, targetY: gridY });
         }
 
         // Update existing positions' targets
@@ -165,4 +148,4 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameState }) => {
     );
 };
 
-export default GameBoard;
+export default SoloGameBoard;

@@ -1,12 +1,13 @@
+import { SnakeEngine } from "./SnakeEngine";
 import { Direction, GameState, Position } from "./types";
 
 
-export class SnakeGame {
-    private state: GameState;
-    private readonly boardSize: number;
+
+export class SoloSnakeGame extends SnakeEngine {
+    protected state: GameState;
 
     constructor(boardSize: number = 20) {
-        this.boardSize = boardSize;
+        super(boardSize)
         this.state = this.getInitialState();
     }
  
@@ -74,7 +75,7 @@ export class SnakeGame {
     }
 
 
-    changeDirection(newDirection: Direction) {
+    override changeDirection(newDirection: Direction) {
         const opposites = {
             [Direction.UP]: Direction.DOWN,
             [Direction.DOWN]: Direction.UP,
@@ -93,8 +94,7 @@ export class SnakeGame {
     }
 
     private checkCollision(): boolean {
-        const head = this.state.snake[0]
-        return (head.x < 0 || head.y < 0) || (head.x > this.boardSize - 1 || head.y > this.boardSize - 1)
+        return this.checkBoundaryCollision(this.state.snake[0])
     }
 
     getState(): GameState {

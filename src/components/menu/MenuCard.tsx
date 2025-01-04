@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Gamepad2, Users, Brain } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import MultiplayerForm from './MultiplayerForm';
 
 type GameMode = 'single' | 'multiplayer' | 'ai' | null;
 
@@ -58,35 +59,46 @@ const MenuButton: React.FC<MenuButtonProps> = ({
   </Button>
 );
 
-// This is our new client component that handles the interactive menu
 const MenuCard: React.FC = () => {
   const [selectedMode, setSelectedMode] = useState<GameMode>(null);
+  const [showMultiplayerForm, setShowMultiplayerForm] = useState(false);
   const router = useRouter();
 
   const handleModeSelect = (mode: Exclude<GameMode, null>) => {
     setSelectedMode(mode);
-    router.push(`/game/`);
+    switch(mode) {
+      case "single":
+        router.push('/game/solo/');
+        break;
+      case 'multiplayer':
+        setShowMultiplayerForm(true);
+        break;
+    }
   };
 
   return (
-    <div className="bg-gray-800/50 p-8 rounded-lg backdrop-blur-sm border border-gray-700">
-      <div className="flex flex-col items-center space-y-6">
-        {(Object.entries(gameModeConfigs) as [Exclude<GameMode, null>, GameModeDescription][]).map(([mode, config]) => (
-          <MenuButton
-            key={mode}
-            text={config.text}
-            icon={config.icon}
-            onClick={() => handleModeSelect(mode)}
-            variant={config.variant}
-          />
-        ))}
+    <>
+      <div className="bg-gray-800/50 p-8 rounded-lg backdrop-blur-sm border border-gray-700">
+        <div className="flex flex-col items-center space-y-6">
+          {(Object.entries(gameModeConfigs) as [Exclude<GameMode, null>, GameModeDescription][]).map(([mode, config]) => (
+            <MenuButton
+              key={mode}
+              text={config.text}
+              icon={config.icon}
+              onClick={() => handleModeSelect(mode)}
+              variant={config.variant}
+            />
+          ))}
+        </div>
+        <div className="mt-8 text-center text-gray-400 h-16 px-4 transition-all duration-200">
+          {selectedMode && gameModeConfigs[selectedMode].description}
+        </div>
       </div>
-
-      <div className="mt-8 text-center text-gray-400 h-16 px-4 transition-all duration-200">
-        {selectedMode && gameModeConfigs[selectedMode].description}
-      </div>
-    </div>
+      {showMultiplayerForm && (
+        <MultiplayerForm onClose={() => setShowMultiplayerForm(false)} />
+      )}
+    </>
   );
 };
 
-export default MenuCard;
+export default MenuCard

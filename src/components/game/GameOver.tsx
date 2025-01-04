@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Trophy } from "lucide-react";
-import { SnakeGame } from '@/api/game';
+import { SoloSnakeGame } from '@/api/SoloSnakeGame';
 import { GameState } from '@/api/types';
 
 interface GameOverProps {
     title: string;
     description: string;
     points: number;
-    gameRef: React.MutableRefObject<SnakeGame>;
+    gameRef: React.MutableRefObject<SoloSnakeGame>;
     setGameState: React.Dispatch<React.SetStateAction<GameState>>;
     onExit: () => void;
 }

@@ -1,19 +1,19 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import GameBoard from '@/components/game/GameBoard'
-import { SnakeGame } from '@/api/game'
+import { SoloSnakeGame } from '@/api/SoloSnakeGame'
 import { useGameLoop } from '@/lib/hooks/useGameLoop'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Direction } from '@/api/types'
 import GameLoading from '@/components/loading/GameLoading'
 import GameOver from '@/components/game/GameOver'
+import SoloGameBoard from '@/components/game/SoloGameBoard'
 
 export default function SinglePlayerGame() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
-    const gameRef = useRef<SnakeGame>(new SnakeGame(20));
+    const gameRef = useRef<SoloSnakeGame>(new SoloSnakeGame(20));
     const [gameState, setGameState] = useState(gameRef.current.getState());
     const inputQueueRef = useRef<Direction[]>([]);
 
@@ -73,7 +73,7 @@ export default function SinglePlayerGame() {
             gameRef.current.update();
             setGameState(gameRef.current.getState());
         }
-    }, 15); // Increased from 10 to 15 FPS
+    }, 10); // Increased from 10 to 15 FPS
 
     const handleBackToMenu = () => {
         router.push('/');
@@ -94,7 +94,7 @@ export default function SinglePlayerGame() {
                 </div>
             </div>
             {
-                isLoading ? (<GameLoading />) : (<><GameBoard gameState={gameState} /></>)
+                isLoading ? (<GameLoading />) : (<><SoloGameBoard gameState={gameState} /></>)
             }
             {gameState.isGameOver && (
                 <div className="mt-4 text-white text-2xl">
