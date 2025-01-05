@@ -1,13 +1,37 @@
 import { SnakeEngine } from "./SnakeEngine";
 import { Direction, DuelGameState, Position } from "./types";
 
+
 export class DuelSnakeGame extends SnakeEngine {
     protected state: DuelGameState
     private SNAKE_LENGTH: number = 3;
 
     constructor(boardSize: number = 20, winScore: number = 50) {
         super(boardSize)
-        this.state = this.getInitialState(winScore)
+        this.state = {
+            players: [
+                {
+                    snake: this.createInitialSnake(5, 10, Direction.RIGHT),
+                    food: { x: 7, y: 10 },
+                    score: 0,
+                    direction: Direction.RIGHT,
+                    isAlive: true
+                },
+                {
+                    snake: this.createInitialSnake(15, 10, Direction.LEFT),
+                    food: { x: 13, y: 10 },
+                    score: 0,
+                    direction: Direction.LEFT,
+                    isAlive: true
+                }
+            ],
+            winScore,
+            isGameOver: false
+        }
+
+        this.state.players[0].food = this.generateFood(0);
+        this.state.players[1].food = this.generateFood(1);
+
     }
 
     private getInitialState(winScore: number): DuelGameState {
@@ -30,9 +54,8 @@ export class DuelSnakeGame extends SnakeEngine {
             ],
             winScore,
             isGameOver: false
-        }
+        };
     }
-
 
     private createInitialSnake(x: number, y: number, direction: Direction): Position[] {
         const snake: Position[] = [];
@@ -97,13 +120,12 @@ export class DuelSnakeGame extends SnakeEngine {
 
             if (this.checkCollision(newHead, index)) {
                 player.isAlive = false;
-                this.checkGameOver()
-                return
+                // this.checkGameOver();
+                return;
             }
 
             player.snake.unshift(newHead)
-            player.snake.pop();
-
+            player.snake.pop()
             if (this.hasEatenFood(newHead, player.food)) {
                 player.score++;
                 player.food = this.generateFood(index)
@@ -115,11 +137,12 @@ export class DuelSnakeGame extends SnakeEngine {
     private checkCollision(newHead: Position, playerIndex: number): boolean {
         if (this.checkBoundaryCollision(newHead)) return true;
 
-        if (this.state.players[playerIndex].snake.some(segment =>
-            segment.x === newHead.x && segment.y === newHead.y
-        )) {
-            return true
-        }
+        // if (this.state.players[playerIndex].snake.some(segment =>
+        //     segment.x === newHead.x && segment.y === newHead.y
+        // )) {
+        //     return true
+        // }
+
         const otherPlayerIndex = playerIndex === 0 ? 1 : 0;
         const otherPlayer = this.state.players[otherPlayerIndex]
 
@@ -130,7 +153,7 @@ export class DuelSnakeGame extends SnakeEngine {
                 return true;
             } else {
                 otherPlayer.isAlive = false;
-                this.checkGameOver();
+                // this.checkGameOver();
             }
         }
 
@@ -139,6 +162,7 @@ export class DuelSnakeGame extends SnakeEngine {
 
 
     private checkGameOver(): boolean {
+        // Game is joever if one palyer who is dead hasmore points than the other
         return false
     }
 
@@ -155,7 +179,7 @@ export class DuelSnakeGame extends SnakeEngine {
         }
     }
 
-    override changeDirection(direction: Direction, playerIndex: number): void {
+    override changeDirection(newDirection: Direction, playerIndex: number): void {
         const player = this.state.players[playerIndex];
 
         const opposites = {
@@ -165,8 +189,8 @@ export class DuelSnakeGame extends SnakeEngine {
             [Direction.RIGHT]: Direction.LEFT
         }
 
-        if (opposites[direction] !== player.direction) {
-            player.direction = direction;
+        if (opposites[newDirection] !== player.direction) {
+            player.direction = newDirection;
         }
     }
 

@@ -61,14 +61,14 @@ const SoloGameBoard: React.FC<SoloGameBoardProps> = ({ gameState }) => {
             }
 
             // Draw segment
-            ctx.fillStyle = i === 0 ? 'green' : 'white';
+            ctx.fillStyle = i === 0 ? '#3B82F6' : '#3B82F688';
             ctx.beginPath();
             ctx.roundRect( pos.currentX, pos.currentY, CELL_SIZE, CELL_SIZE, 4);
             ctx.fill();
         });
 
         // Draw food
-        ctx.fillStyle = 'red';
+        ctx.fillStyle = '#3882F6';
         ctx.beginPath();
         ctx.roundRect( gameState.food.x * CELL_SIZE, gameState.food.y * CELL_SIZE, CELL_SIZE, CELL_SIZE, 4);
         ctx.fill();

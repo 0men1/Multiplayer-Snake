@@ -1,4 +1,5 @@
 
+
 export enum Direction {
     UP = 'UP',
     DOWN = 'DOWN',
@@ -14,7 +15,7 @@ export interface Position {
 
 export interface GameState {
     snake: Position[];
-    food: Position 
+    food: Position
     direction: Direction;
     score: number;
     isGameOver: boolean

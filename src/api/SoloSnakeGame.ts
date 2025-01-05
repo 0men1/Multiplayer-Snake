@@ -10,7 +10,7 @@ export class SoloSnakeGame extends SnakeEngine {
         super(boardSize)
         this.state = this.getInitialState();
     }
- 
+
     private getInitialState(): GameState {
         return {
             snake: [{ x: 10, y: 10 }, { x: 10, y: 10 }, { x: 10, y: 10 }],
@@ -82,7 +82,7 @@ export class SoloSnakeGame extends SnakeEngine {
             [Direction.LEFT]: Direction.RIGHT,
             [Direction.RIGHT]: Direction.LEFT
         };
-        
+
         if (opposites[newDirection] !== this.state.direction) {
             this.state.direction = newDirection;
         }
