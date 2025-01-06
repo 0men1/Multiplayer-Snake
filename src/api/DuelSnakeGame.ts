@@ -28,10 +28,8 @@ export class DuelSnakeGame extends SnakeEngine {
             winScore,
             isGameOver: false
         }
-
         this.state.players[0].food = this.generateFood(0);
         this.state.players[1].food = this.generateFood(1);
-
     }
 
     private getInitialState(winScore: number): DuelGameState {
@@ -120,7 +118,8 @@ export class DuelSnakeGame extends SnakeEngine {
 
             if (this.checkCollision(newHead, index)) {
                 player.isAlive = false;
-                // this.checkGameOver();
+                this.state.winner = index === 1 ? 0 : 1;
+                this.state.isGameOver = true;
                 return;
             }
 
@@ -137,12 +136,6 @@ export class DuelSnakeGame extends SnakeEngine {
     private checkCollision(newHead: Position, playerIndex: number): boolean {
         if (this.checkBoundaryCollision(newHead)) return true;
 
-        // if (this.state.players[playerIndex].snake.some(segment =>
-        //     segment.x === newHead.x && segment.y === newHead.y
-        // )) {
-        //     return true
-        // }
-
         const otherPlayerIndex = playerIndex === 0 ? 1 : 0;
         const otherPlayer = this.state.players[otherPlayerIndex]
 
@@ -153,18 +146,11 @@ export class DuelSnakeGame extends SnakeEngine {
                 return true;
             } else {
                 otherPlayer.isAlive = false;
-                // this.checkGameOver();
             }
         }
-
         return false;
     }
 
-
-    private checkGameOver(): boolean {
-        // Game is joever if one palyer who is dead hasmore points than the other
-        return false
-    }
 
     private hasEatenFood(head: Position, food: Position): boolean {
         return food.x === head.x && food.y === head.y;
@@ -201,6 +187,4 @@ export class DuelSnakeGame extends SnakeEngine {
     override reset(): void {
         this.state = this.getInitialState(this.state.winScore);
     }
-
-
 }
