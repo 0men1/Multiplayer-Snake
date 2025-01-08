@@ -60,7 +60,7 @@ export default function LocalMultiplayerGame() {
                     points={gameState.players[gameState.winner || 0].score}
                     gameRef={gameRef}
                     setGameState={setGameState}
-                    onExit={() => {}}
+                    onExit={() => { }}
                 />}
         </div>
     )

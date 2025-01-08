@@ -9,7 +9,8 @@ const DuelGameBoard: React.FC<DuelGameBoardProps> = ({ gameState }) => {
     const canvaseRef = useRef<HTMLCanvasElement>(null);
     const patternRef = useRef<CanvasPattern | null>(null);
 
-    const CELL_SIZE = 20;
+
+    const CELL_SIZE = 30;
     const GRID_SIZE = 20;
     const CANVAS_SIZE = CELL_SIZE * GRID_SIZE;
 
