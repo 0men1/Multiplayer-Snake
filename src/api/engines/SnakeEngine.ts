@@ -1,4 +1,4 @@
-import { Direction, DuelGameState, GameState, Position } from "./types";
+import { Direction, DuelGameState, GameState, Position } from "../types";
 
 export abstract class SnakeEngine {
     protected boardSize: number;

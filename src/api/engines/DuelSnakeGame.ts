@@ -1,5 +1,5 @@
 import { SnakeEngine } from "./SnakeEngine";
-import { Direction, DuelGameState, Position } from "./types";
+import { Direction, DuelGameState, Position } from "../types";
 
 
 export class DuelSnakeGame extends SnakeEngine {

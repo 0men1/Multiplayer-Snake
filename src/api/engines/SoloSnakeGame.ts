@@ -1,5 +1,5 @@
 import { SnakeEngine } from "./SnakeEngine";
-import { Direction, GameState, Position } from "./types";
+import { Direction, GameState, Position } from "../types";
 
 
 

@@ -1,5 +1,5 @@
 'use client'
-import { DuelSnakeGame } from "@/api/DuelSnakeGame";
+import { DuelSnakeGame } from "@/api/engines/DuelSnakeGame";
 import { Direction } from "@/api/types";
 import DuelGameBoard from "@/components/game/DuelGameBoard";
 import GameOver from "@/components/game/GameOver";

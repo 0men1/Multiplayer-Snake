@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { SoloSnakeGame } from '@/api/SoloSnakeGame'
+import { SoloSnakeGame } from '@/api/engines/SoloSnakeGame'
 import { useGameLoop } from '@/lib/hooks/useGameLoop'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
